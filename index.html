@@ -1,57 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time till Veronika arrives</title>
-    <style>
-        /* ... (styles from previous response) */
-    </style>
+<style>
+body {
+  background-color: white;
+  text-align: center;
+  font-size: 10vw; /* Adjust for desired size */
+  font-family: sans-serif;
+}
+</style>
+<script>
+function updateCountdown() {
+  var now = new Date();
+  var targetTime = new Date();
+  targetTime.setHours(23, 0, 0); // 11:00 PM
+
+  if (now.getHours() > 23) {
+    targetTime.setDate(targetTime.getDate() + 1); // If past 11 PM, set for tomorrow
+  }
+
+  var timeRemaining = targetTime - now;
+
+  var hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+  var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+  // Calculate color based on hour
+  var currentHour = now.getHours();
+  var colorIndex = currentHour % 24; // Cycle through colors every 24 hours
+  var colors = ["red", "orange", "yellow", "green"]; // Example color palette
+  var color = colors[colorIndex % colors.length];
+
+  document.getElementById("countdown").style.color = color;
+  document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s";
+
+  setTimeout(updateCountdown, 1000); // Update every second
+}
+
+window.onload = updateCountdown;
+</script>
 </head>
 <body>
-
-    <div id="countdown"></div>
-
-    <script>
-        function updateCountdown() {
-            const now = new Date();
-            const tomorrow23 = new Date();
-            tomorrow23.setDate(now.getDate() + 1);
-            tomorrow23.setHours(23, 0, 0, 0);
-
-            const timeLeft = tomorrow23.getTime() - now.getTime();
-
-            if (timeLeft <= 0) {
-                document.getElementById("countdown").innerText = "Veronika is here!";
-                document.getElementById("countdown").classList.add("flash");
-                document.getElementById("countdown").style.backgroundColor = "green";
-                return;
-            }
-
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-            // Corrected color gradient logic
-            const startOfDay = new Date();
-            startOfDay.setHours(0, 0, 0, 0); // Correctly get the start of the current day
-            const endOfDay = new Date();
-            endOfDay.setDate(endOfDay.getDate() + 1)
-            endOfDay.setHours(23, 0, 0, 0);
-            const totalTime = endOfDay.getTime() - startOfDay.getTime();
-            const progress = timeLeft / totalTime;
-
-            const red = 255 * progress;
-            const green = 255 * (1 - progress);
-            document.getElementById("countdown").style.backgroundColor = `rgb(${red}, ${green}, 0)`;
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    </script>
-
+<div id="countdown"></div>
 </body>
 </html>
