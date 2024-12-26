@@ -27,7 +27,7 @@ function updateCountdown() {
 
   // Calculate color based on elapsed time (for testing)
   var elapsedSeconds = Math.floor(Date.now() / 1000); 
-  var colorIndex = Math.floor(elapsedSeconds / 10); // Change color every 10 seconds
+  var colorIndex = Math.floor(elapsedSeconds / 3600); // Change color every 10 seconds
   var colors = ["red", "orange", "DarkKhaki", "green", "blue", "indigo", "violet"]; 
   var color = colors[colorIndex % colors.length]; 
 
